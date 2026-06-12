@@ -1,0 +1,638 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CircuitPython Essentials Handbook - Enhanced Edition</title>
+    <style>
+        @page {
+            size: A4;
+            margin: 20mm 15mm;
+            background-color: #ffffff;
+            @bottom-right {
+                content: counter(page);
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 9pt;
+                color: #718096;
+            }
+            @bottom-left {
+                content: "CircuitPython Essentials Handbook | Comprehensive Reference";
+                font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+                font-size: 9pt;
+                color: #718096;
+            }
+        }
+
+        @page :first {
+            margin: 0;
+            background-color: #0f172a;
+            @bottom-right { content: normal; }
+            @bottom-left { content: normal; }
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Helvetica, Arial, sans-serif;
+            font-size: 10.5pt;
+            line-height: 1.6;
+            color: #334155;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Cover Page Styling */
+        .cover {
+            page-break-after: always;
+            height: 297mm;
+            position: relative;
+            background-color: #0f172a;
+            color: #ffffff;
+            padding: 45mm 20mm 20mm 20mm;
+        }
+
+        .cover-title {
+            font-size: 36pt;
+            font-weight: 800;
+            line-height: 1.2;
+            color: #38bdf8;
+            margin-bottom: 5mm;
+        }
+
+        .cover-subtitle {
+            font-size: 18pt;
+            font-weight: 400;
+            color: #94a3b8;
+            margin-bottom: 25mm;
+            border-bottom: 2px solid #38bdf8;
+            padding-bottom: 5mm;
+        }
+
+        .cover-description {
+            font-size: 12pt;
+            line-height: 1.8;
+            color: #cbd5e1;
+            max-width: 160mm;
+        }
+
+        .cover-meta {
+            position: absolute;
+            bottom: 30mm;
+            left: 20mm;
+            font-size: 11pt;
+            color: #94a3b8;
+            line-height: 1.6;
+        }
+
+        /* Content Formatting */
+        .section-title {
+            page-break-before: always;
+            font-size: 22pt;
+            color: #0f172a;
+            border-bottom: 3px solid #0284c7;
+            padding-bottom: 4mm;
+            margin-top: 0;
+            margin-bottom: 8mm;
+            font-weight: 700;
+        }
+
+        h2 {
+            font-size: 15pt;
+            color: #0369a1;
+            margin-top: 9mm;
+            margin-bottom: 4mm;
+            page-break-after: avoid;
+            border-left: 5px solid #0ea5e9;
+            padding-left: 10px;
+        }
+
+        h3 {
+            font-size: 12pt;
+            color: #0f172a;
+            margin-top: 6mm;
+            margin-bottom: 3mm;
+            page-break-after: avoid;
+            font-weight: 600;
+        }
+
+        p {
+            margin-top: 0;
+            margin-bottom: 4mm;
+            text-align: justify;
+        }
+
+        ul, ol {
+            margin-top: 0;
+            margin-bottom: 4mm;
+            padding-left: 6mm;
+        }
+
+        li {
+            margin-bottom: 2mm;
+        }
+
+        /* DARK THEME CODE BLOCKS */
+        pre {
+            background-color: #1e293b; /* Premium slate dark background */
+            border: 1px solid #334155;
+            border-radius: 6px;
+            padding: 5mm;
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            font-size: 9pt;
+            line-height: 1.5;
+            color: #f8fafc; /* Crisp light white/gray text */
+            margin-top: 4mm;
+            margin-bottom: 4mm;
+            page-break-inside: avoid;
+            white-space: pre-wrap;
+        }
+
+        /* Syntax highlighting placeholders inside pre */
+        pre .comment { color: #64748b; font-style: italic; }
+        pre .keyword { color: #f472b6; font-weight: bold; }
+        pre .builtin { color: #38bdf8; }
+        pre .string { color: #34d399; }
+        pre .number { color: #fbbf24; }
+
+        code.inline-code {
+            font-family: 'Consolas', 'Courier New', Courier, monospace;
+            background-color: #f1f5f9;
+            padding: 0.5mm 1.5mm;
+            border-radius: 4px;
+            font-size: 9.5pt;
+            color: #e11d48;
+            font-weight: 500;
+        }
+
+        .math {
+            font-family: 'Times New Roman', Times, serif;
+            font-style: italic;
+            font-weight: bold;
+            color: #0369a1;
+        }
+
+        /* Line-by-Line Syntax Breakdown Tables */
+        .breakdown-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 3mm;
+            margin-bottom: 6mm;
+            page-break-inside: avoid;
+        }
+
+        .breakdown-table th {
+            background-color: #334155;
+            color: #ffffff;
+            font-weight: 600;
+            text-align: left;
+            padding: 2.5mm 3mm;
+            font-size: 9.5pt;
+            border: 1px solid #334155;
+        }
+
+        .breakdown-table td {
+            padding: 2.5mm 3mm;
+            font-size: 9.2pt;
+            border: 1px solid #e2e8f0;
+            line-height: 1.5;
+        }
+
+        .breakdown-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+        
+        .breakdown-table code {
+            font-family: 'Consolas', monospace;
+            color: #0369a1;
+            font-weight: bold;
+        }
+
+        /* Standard Data Tables */
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 4mm;
+            margin-bottom: 6mm;
+            page-break-inside: avoid;
+        }
+
+        table.data-table th {
+            background-color: #0f172a;
+            color: #ffffff;
+            font-weight: 600;
+            text-align: left;
+            padding: 3mm;
+            font-size: 9.5pt;
+        }
+
+        table.data-table td {
+            padding: 3mm;
+            font-size: 9.5pt;
+            border: 1px solid #e2e8f0;
+        }
+
+        table.data-table tr:nth-child(even) td {
+            background-color: #f8fafc;
+        }
+
+        /* Callout / Information Boxes */
+        .callout {
+            background-color: #f0fdf4;
+            border-left: 4px solid #16a34a;
+            padding: 4mm;
+            margin-top: 4mm;
+            margin-bottom: 5mm;
+            border-radius: 0 6px 6px 0;
+            page-break-inside: avoid;
+        }
+
+        .callout-title {
+            font-weight: 700;
+            color: #14532d;
+            margin-bottom: 1mm;
+            font-size: 10pt;
+        }
+
+        .callout-content {
+            font-size: 9.5pt;
+            color: #166534;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- COVER PAGE -->
+    <div class="cover">
+        <div class="cover-title">CircuitPython Essentials<br>Handbook</div>
+        <div class="cover-subtitle">Enhanced Syntax & Learning Edition</div>
+        <div class="cover-description">
+            A comprehensive instructional manual covering low-level hardware initialization, digital and analog subsystems, custom module structures, software debouncing algorithms, and bus networks. Featuring high-contrast dark theme snippets with step-by-step line-by-line logical code breakdowns.
+        </div>
+        <div class="cover-meta">
+            <strong>Publisher:</strong> Core Engineering Press<br>
+            <strong>Version:</strong> 2.1.0 (LTS Revision)<br>
+            <strong>Features:</strong> Dark Theme Syntax Highlight Mapping, Comprehensive Error Rectifications
+        </div>
+    </div>
+
+    <!-- MODULE 1 -->
+    <div class="section-title">Module 1: Introduction & Environment Setup</div>
+    
+    <h2>1.1 Core Architecture Philosophy</h2>
+    <p>
+        CircuitPython reinvents embedded hardware control by eliminating standard compilation cycles. Traditional microcode execution requires writing C code, parsing headers, linking static libraries, generating binary machine blocks, and using external flash programmers over a native JTAG/SWD line. 
+    </p>
+    <p>
+        CircuitPython houses a complete, highly pre-optimized Python 3 interpreter directly within the internal non-volatile memory layout of the chip. When power cycles, the system instantiates a virtual machine loop that directly reads script lines step-by-step out of your source file. This means modifying hardware behaviors is as quick as editing a standard document on your host computer.
+    </p>
+
+    <h2>1.2 The Local File Structure Lifecycle</h2>
+    <p>
+        When connected via a USB cable, your host computer treats the microcontroller like a standard USB thumb drive. The physical storage space is exposed as an individual partition named <code class="inline-code">CIRCUITPY</code>. 
+    </p>
+    <p>
+        The internal loop execution checks specific hardware script patterns. If you rename your core logic to something random, the interpreter will ignore it and stand idle. The system continuously evaluates storage alterations; the millisecond a save operation completes via your text editor, the internal execution engine soft-reboots itself to immediately process your modifications.
+    </p>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Standard File Target</th>
+                <th>Functional Operation Within System</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>boot_out.txt</strong></td>
+                <td>Generated automatically at boot phase. Displays the precise version of CircuitPython, compilation date, and board ID. Useful for identifying system capabilities.</td>
+            </tr>
+            <tr>
+                <td><strong>code.py</strong></td>
+                <td>The primary application entry point. The interpreter continuously targets this filename for execution.</td>
+            </tr>
+            <tr>
+                <td><strong>lib/</strong></td>
+                <td>The core folder architecture containing external micro-driver modules (compiled <code class="inline-code">.mpy</code> or standard source files) used to control advanced displays and multi-chip arrays.</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- MODULE 2 -->
+    <div class="section-title">Module 2: Core Architecture & Script Anatomy</div>
+    
+    <h2>2.1 The Foundational Blinky Blueprint</h2>
+    <p>
+        To grasp execution structures, analyze this core foundational script pattern. It sets up an infinite loop that alternates the electrical state of an onboard indicator pin.
+    </p>
+
+    <pre><span class="keyword">import</span> <span class="builtin">board</span>         <span class="comment"># Expose underlying layout pins</span>
+<span class="keyword">import</span> <span class="builtin">digitalio</span>     <span class="comment"># Enable raw digital input/output configurations</span>
+<span class="keyword">import</span> <span class="builtin">time</span>          <span class="comment"># Provide precise time tracking utilities</span>
+
+<span class="comment"># Hardware Instantiation Phase</span>
+led_indicator = digitalio.DigitalInOut(board.LED)
+led_indicator.direction = digitalio.Direction.OUTPUT
+
+<span class="comment"># Main Infinite Operational Thread</span>
+<span class="keyword">while</span> <span class="keyword">True</span>:
+    led_indicator.value = <span class="keyword">True</span>
+    time.sleep(<span class="number">0.5</span>)
+    led_indicator.value = <span class="keyword">False</span>
+    time.sleep(<span class="number">0.5</span>)</pre>
+
+    <h3>Line-by-Line Syntax Breakdown</h3>
+    <table class="breakdown-table">
+        <thead>
+            <tr>
+                <th>Line / Statement</th>
+                <th>Detailed Explanatory Breakdown</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>import board</code></td>
+                <td>Imports the physical pin layout definitions unique to your specific hardware chip configuration.</td>
+            </tr>
+            <tr>
+                <td><code>import digitalio</code></td>
+                <td>Imports the core module containing classes needed to manipulate physical pins as digital high/low lines.</td>
+            </tr>
+            <tr>
+                <td><code>import time</code></td>
+                <td>Brings in time-keeping capabilities to stall code execution threads for defined, deterministic durations.</td>
+            </tr>
+            <tr>
+                <td><code>led_indicator = digitalio.DigitalInOut(board.LED)</code></td>
+                <td>Creates a hardware object instance named <code>led_indicator</code>, mapping it directly to the physical built-in status LED pin.</td>
+            </tr>
+            <tr>
+                <td><code>led_indicator.direction = digitalio.Direction.OUTPUT</code></td>
+                <td>Configures the physical pin's internal multiplexer transistors to push electrical current out rather than listening for inputs.</td>
+            </tr>
+            <tr>
+                <td><code>while True:</code></td>
+                <td>Establishes a non-blocking infinite conditional loop block ensuring your embedded code runs continuously.</td>
+            </tr>
+            <tr>
+                <td><code>led_indicator.value = True</code></td>
+                <td>Drives the physical voltage on the pin pad up to full logical logic high status (typically exactly 3.3 Volts). This completes the circuit to illuminate the LED.</td>
+            </tr>
+            <tr>
+                <td><code>time.sleep(0.5)</code></td>
+                <td>Forces the internal interpreter processing engine to freeze execution for exactly 500 milliseconds before stepping forward.</td>
+            </tr>
+            <tr>
+                <td><code>led_indicator.value = False</code></td>
+                <td>Drops the pin pad electrical potential down to 0.0 Volts (Ground reference level), cutting off power flow and turning off the LED.</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- MODULE 3 -->
+    <div class="section-title">Module 3: Hardware Interfacing – Digital I/O</div>
+    
+    <h2>3.1 Processing Inputs with Pull Resistors and Software Debounce</h2>
+    <p>
+        Mechanical switches create electrical noise when their contacts join, transitioning through hundreds of tiny high/low voltage cycles before settling. To handle this cleanly, our code uses internal pull resistors to keep the pin at a known baseline voltage, and a software timer filter to debounce the mechanical bounce.
+    </p>
+
+    <pre><span class="keyword">import</span> <span class="builtin">board</span>
+<span class="keyword">import</span> <span class="builtin">digitalio</span>
+<span class="keyword">import</span> <span class="builtin">time</span>
+
+<span class="comment"># Explicitly instantiate an Input Pin on Pin GP14</span>
+hardware_button = digitalio.DigitalInOut(board.GP14)
+hardware_button.direction = digitalio.Direction.INPUT
+hardware_button.pull = digitalio.Pull.UP  <span class="comment"># Hold line at 3.3V by default</span>
+
+stable_state = <span class="keyword">True</span>
+filter_duration = <span class="number">0.050</span>  <span class="comment"># 50 millisecond stability validation check</span>
+
+<span class="keyword">while</span> <span class="keyword">True</span>:
+    raw_reading = hardware_button.value
+    
+    <span class="keyword">if</span> raw_reading != stable_state:
+        time.sleep(filter_duration)  <span class="comment"># Wait for mechanical signal to stabilize</span>
+        <span class="keyword">if</span> hardware_button.value == raw_reading:
+            stable_state = raw_reading
+            <span class="keyword">if</span> stable_state == <span class="keyword">False</span>:  <span class="comment"># Logic is inverted because of Pull.UP</span>
+                print(<span class="string">"Button successfully filtered and pressed!"</span>)
+    
+    time.sleep(<span class="number">0.01</span>)  <span class="comment"># Small loop delay to preserve CPU resources</span></pre>
+
+    <h3>Line-by-Line Syntax Breakdown</h3>
+    <table class="breakdown-table">
+        <thead>
+            <tr>
+                <th>Line / Statement</th>
+                <th>Detailed Explanatory Breakdown</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>hardware_button = digitalio.DigitalInOut(board.GP14)</code></td>
+                <td>Binds a local object instance to physical input/output pin Pad 14 on the microcontroller layout.</td>
+            </tr>
+            <tr>
+                <td><code>hardware_button.direction = digitalio.Direction.INPUT</code></td>
+                <td>Configures the pin's internal circuitry to read incoming voltage potentials rather than driving them.</td>
+            </tr>
+            <tr>
+                <td><code>hardware_button.pull = digitalio.Pull.UP</code></td>
+                <td>Activates an internal resistor path to the 3.3V line. This prevents the input from floating randomly and ensures it reads high (True) until a button press pulls it to ground (False).</td>
+            </tr>
+            <tr>
+                <td><code>stable_state = True</code></td>
+                <td>Initializes a state variable tracking the last verified, noise-free input condition of our physical pin.</td>
+            </tr>
+            <tr>
+                <td><code>raw_reading = hardware_button.value</code></td>
+                <td>Directly queries the current instantaneous logical state of the input latch register on the chip.</td>
+            </tr>
+            <tr>
+                <td><code>if raw_reading != stable_state:</code></td>
+                <td>Detects the exact millisecond a change occurs, checking if the line is moving away from its known stable value.</td>
+            </tr>
+            <tr>
+                <td><code>time.sleep(filter_duration)</code></td>
+                <td>Halts the code long enough for physical contact vibrations to stop, ensuring subsequent readings capture clean, settled states.</td>
+            </tr>
+            <tr>
+                <td><code>if hardware_button.value == raw_reading:</code></td>
+                <td>Re-evaluates the pin's state. If the reading matches our pre-delay value, we can safely confirm the state change was a real user press, not electrical noise.</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- MODULE 4 -->
+    <div class="section-title">Module 4: Analog Signals & Pulse Width Modulation (PWM)</div>
+    
+    <h2>4.1 16-Bit Analog to Digital Input Conversions</h2>
+    <p>
+        CircuitPython maps all analog sensor data uniformly across a 16-bit integer spectrum ($0$ to $65535$). To process this data for real-world applications, you convert this raw integer back to a floating-point voltage reference using a direct ratio calibration equation.
+    </p>
+
+    <pre><span class="keyword">import</span> <span class="builtin">board</span>
+<span class="keyword">import</span> <span class="builtin">analogio</span>
+<span class="keyword">import</span> <span class="builtin">time</span>
+
+<span class="comment"># Pin binding for continuous analog monitoring</span>
+pot_sensor = analogio.AnalogIn(board.GP26)
+
+<span class="keyword">while</span> <span class="keyword">True</span>:
+    raw_integer = pot_sensor.value
+    <span class="comment"># Precision scale conversion calculation</span>
+    scaled_voltage = (raw_integer * <span class="number">3.3</span>) / <span class="number">65535</span>
+    
+    print(<span class="string">"Integer representation: "</span>, raw_integer, <span class="string">" | Real Volts: "</span>, scaled_voltage)
+    time.sleep(<span class="number">0.2</span>)</pre>
+
+    <h3>Line-by-Line Syntax Breakdown</h3>
+    <table class="breakdown-table">
+        <thead>
+            <tr>
+                <th>Line / Statement</th>
+                <th>Detailed Explanatory Breakdown</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>import analogio</code></td>
+                <td>Imports the module that manages Analog-to-Digital conversion pipelines on supported hardware pins.</td>
+            </tr>
+            <tr>
+                <td><code>pot_sensor = analogio.AnalogIn(board.GP26)</code></td>
+                <td>Initializes the internal hardware ADC step circuitry on physical input pin 26.</td>
+            </tr>
+            <tr>
+                <td><code>raw_integer = pot_sensor.value</code></td>
+                <td>Reads the voltage level on the pin and returns it as a scaled 16-bit integer between 0 and 65535.</td>
+            </tr>
+            <tr>
+                <td><code>scaled_voltage = (raw_integer * 3.3) / 65535</code></td>
+                <td>Converts the 16-bit integer back into a real-world voltage value by scaling it against the 3.3V reference level.</td>
+            </tr>
+            <tr>
+                <td><code>time.sleep(0.2)</code></td>
+                <td>Paces the execution thread to limit the ADC sampling rate, preventing log data overflow on the serial output line.</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- MODULE 5 -->
+    <div class="section-title">Module 5: The Library Subsystem & Bus Protocols</div>
+    
+    <h2>5.1 Reliable I2C Interface Implementations</h2>
+    <p>
+        When working with advanced sensors or display modules, managing communication over shared lines requires robust bus management. The script below handles I2C tracking alongside error handling routines to catch common communication faults.
+    </p>
+
+    <pre><span class="keyword">import</span> <span class="builtin">board</span>
+<span class="keyword">import</span> <span class="builtin">busio</span>
+<span class="keyword">import</span> <span class="builtin">time</span>
+<span class="keyword">import</span> <span class="builtin">adafruit_aht20</span>
+
+<span class="keyword">try</span>:
+    <span class="comment"># Initialize physical communication lines (SCL and SDA)</span>
+    i2c_bus = busio.I2C(board.SCL, board.SDA)
+<span class="keyword">except</span> <span class="builtin">ValueError</span> <span class="keyword">as</span> error_context:
+    print(<span class="string">"Bus creation failed! Verify pull-up resistors are installed."</span>, error_context)
+    raise <span class="builtin">SystemExit</span>
+
+<span class="comment"># Attach the specific device driver onto the active, verified communication bus</span>
+sensor_instance = adafruit_aht20.AHT20(i2c_bus)
+
+<span class="keyword">while</span> <span class="keyword">True</span>:
+    <span class="comment"># Query data fields through the high-level library interface</span>
+    current_temp = sensor_instance.temperature
+    current_humidity = sensor_instance.relative_humidity
+    
+    print(<span class="string">"Temperature: %0.1f C"</span> % current_temp)
+    print(<span class="string">"Humidity: %0.1f %%"</span> % current_humidity)
+    time.sleep(<span class="number">1.5</span>)</pre>
+
+    <h3>Line-by-Line Syntax Breakdown</h3>
+    <table class="breakdown-table">
+        <thead>
+            <tr>
+                <th>Line / Statement</th>
+                <th>Detailed Explanatory Breakdown</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><code>import busio</code></td>
+                <td>Exposes core hardware bus protocol classes (I2C, SPI, UART) to handle data transfers across standard multi-device lines.</td>
+            </tr>
+            <tr>
+                <td><code>import adafruit_aht20</code></td>
+                <td>Loads the specialized device driver library from your local <code>lib/</code> folder to decode raw binary values from the AHT20 sensor.</td>
+            </tr>
+            <tr>
+                <td><code>try:</code></td>
+                <td>Opens an error-handling block to isolate code sections that depend on critical physical hardware connections.</td>
+            </tr>
+            <tr>
+                <td><code>i2c_bus = busio.I2C(board.SCL, board.SDA)</code></td>
+                <td>Initializes the internal hardware peripheral controller using the board's standard Serial Clock (SCL) and Serial Data (SDA) pins.</td>
+            </tr>
+            <tr>
+                <td><code>except ValueError as error_context:</code></td>
+                <td>Catches initialization errors that occur if the communication lines are shorted or missing required external pull-up resistors.</td>
+            </tr>
+            <tr>
+                <td><code>sensor_instance = adafruit_aht20.AHT20(i2c_bus)</code></td>
+                <td>Creates an instance of the sensor driver on the active I2C bus, matching its unique internal 7-bit device address.</td>
+            </tr>
+            <tr>
+                <td><code>current_temp = sensor_instance.temperature</code></td>
+                <td>Commands the driver library to handle the multi-byte I2C read sequences and return a clean, calibrated Celsius value.</td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <!-- MODULE 6 -->
+    <div class="section-title">Module 6: Advanced Essentials & Troubleshooting</div>
+    
+    <h2>6.1 Advanced Troubleshooting Guide</h2>
+    <p>
+        Developing for embedded hardware means occasionally running into resource constraints or physical connection issues. This reference chart highlights common faults and how to resolve them.
+    </p>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>Error Signature</th>
+                <th>Root Technical Cause</th>
+                <th>Prescriptive Fix Pattern</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>MemoryError</strong></td>
+                <td>The interpreter ran out of open memory blocks in the RAM heap while trying to create a new object.</td>
+                <td>Call <code class="inline-code">gc.collect()</code> at regular intervals to clear out dead variables, and use pre-compiled <code class="inline-code">.mpy</code> library files to reduce footprint.</td>
+            </tr>
+            <tr>
+                <td><strong>ValueError: Pin in use</strong></td>
+                <td>The script tried to allocate a GPIO pin that is already being used by another active module or object instance.</td>
+                <td>Review your pin assignments. Ensure you aren't initializing the same pin twice, and call <code class="inline-code">deinit()</code> on old hardware objects before re-allocating the pin.</td>
+            </tr>
+            <tr>
+                <td><strong>OSError: [Errno 19] No such device</strong></td>
+                <td>The microcontroller sent an address request over the I2C bus, but no connected chip returned an acknowledgment signal.</td>
+                <td>Check your wiring. Verify power and ground connections on the sensor, ensure data lines aren't swapped, and confirm the device's I2C address matches the driver.</td>
+            </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>
